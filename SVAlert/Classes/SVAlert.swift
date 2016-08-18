@@ -16,7 +16,10 @@ extension SVAlert {
     public func showFrom(parent: UIView){
         parentView = parent
         windowView = getWindow()
+        frame = windowView.bounds
         initializeDimmerView()
+        initializeAlertView()
+
         showWithAnimations()
     }
 
@@ -64,13 +67,33 @@ extension SVAlert {
         parentView.addSubview(dimmerView)
     }
 
+    private func initializeAlertView() {
+        guard alertView == nil else { return }
+        alertView = SVAlertView.defaultAlertView()
+        alertView.title = "Title"
+        alertView.subtitle = "Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor "
+        parentView.addSubview(alertView)
+        var f = alertView.frame
+        f.size.width = self.frame.size.width
+        alertView.frame = f
+        var p = dimmerView.center
+        p.y = -p.y
+        alertView.center = p
+    }
+
     private func showWithAnimations() {
+        let springAnimation = POPSpringAnimation(propertyNamed: kPOPLayerPositionY)
+        springAnimation.toValue = dimmerView.center.y
+        springAnimation.springBounciness = 10.0
+
         let dimmerShowAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
         dimmerShowAnimation.toValue = 0.3
+        alertView.layer.pop_addAnimation(springAnimation, forKey: AnimationTitles.AlertViewShow)
         dimmerView.layer.pop_addAnimation(dimmerShowAnimation, forKey: AnimationTitles.DimmerViewOpacity)
     }
 }
 
 struct AnimationTitles {
     static let DimmerViewOpacity = "dimmmerViewOpacity"
+    static let AlertViewShow = "alertViewShow"
 }

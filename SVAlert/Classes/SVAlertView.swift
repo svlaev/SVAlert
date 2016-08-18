@@ -9,32 +9,37 @@
 extension SVAlertView {
     // MARK: - Static methods
     class func defaultAlertView() -> SVAlertView {
-        let alert = SVAlertView()
-        return alert
+        return NSBundle(forClass: self.classForCoder()).loadNibNamed("SVAlertView", owner: nil, options: nil).first as! SVAlertView
     }
 
     // MARK: - Public methods
-
 }
 
 class SVAlertView: UIView {
     // MARK: - Public properties
     var title: String! = nil {
         didSet {
-
+            lblTitle?.text = title
         }
     }
 
-    // MARK: - Initializer
-    convenience init () {
-        self.init(frame: CGRectMake(0.0, 0.0, 200.0, 200.0))
+    var subtitle: String! = nil {
+        didSet {
+            lblSubtitle?.text = subtitle
+        }
     }
 
     // MARK: - Private static properties
+    static let BottomMargin: CGFloat = 15.0
 
     // MARK: - Private properties
-    var lblTitle: UILabel! = nil
-    var lblSubtitle: UILabel! = nil
+
+    // MARK: - Outlets
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblSubtitle: UILabel!
+    @IBOutlet weak var viewBtnsHolder: UIView!
+    @IBOutlet weak var constrTitleTopMargin: NSLayoutConstraint!
+    @IBOutlet weak var constrSubtitleTopMargin: NSLayoutConstraint!
 }
 
 extension SVAlertView {

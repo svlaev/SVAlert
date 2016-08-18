@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SVAlertView" customModule="SVAlert">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="132"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5j-JH-U7I" userLabel="Background">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="132"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZkB-tK-uhe">
+                    <rect key="frame" x="15" y="15" width="570" height="20"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label\nA" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KbB-yH-DWM">
+                    <rect key="frame" x="15" y="50" width="570" height="17"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFz-Rb-UaZ" userLabel="Buttons Holder">
+                    <rect key="frame" x="0.0" y="82" width="600" height="50"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sLr-8o-9S6">
+                            <rect key="frame" x="0.0" y="49" width="600" height="1"/>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="AzS-9c-uMb"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eme-DW-I11">
+                            <rect key="frame" x="10" y="10" width="580" height="29"/>
+                            <state key="normal" title="Button"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="sLr-8o-9S6" secondAttribute="bottom" id="6iP-21-1Yw"/>
+                        <constraint firstItem="sLr-8o-9S6" firstAttribute="leading" secondItem="eFz-Rb-UaZ" secondAttribute="leading" id="Hlh-1C-nyM"/>
+                        <constraint firstItem="eme-DW-I11" firstAttribute="top" secondItem="eFz-Rb-UaZ" secondAttribute="top" constant="10" id="Jew-aT-mNC"/>
+                        <constraint firstAttribute="trailing" secondItem="sLr-8o-9S6" secondAttribute="trailing" id="O72-6E-um7"/>
+                        <constraint firstAttribute="height" constant="50" id="d7l-J5-mRr"/>
+                        <constraint firstItem="eme-DW-I11" firstAttribute="leading" secondItem="eFz-Rb-UaZ" secondAttribute="leading" constant="10" id="g5R-Fu-Oj4"/>
+                        <constraint firstItem="sLr-8o-9S6" firstAttribute="top" secondItem="eme-DW-I11" secondAttribute="bottom" constant="10" id="w7w-jA-Zcr"/>
+                        <constraint firstAttribute="trailing" secondItem="eme-DW-I11" secondAttribute="trailing" constant="10" id="wTS-Ml-GBk"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="eFz-Rb-UaZ" firstAttribute="top" secondItem="KbB-yH-DWM" secondAttribute="bottom" constant="15" id="4Ji-Cx-vc4"/>
+                <constraint firstItem="KbB-yH-DWM" firstAttribute="top" secondItem="ZkB-tK-uhe" secondAttribute="bottom" constant="15" id="6mb-QE-Mo1"/>
+                <constraint firstItem="V5j-JH-U7I" firstAttribute="leading" secondItem="ZkB-tK-uhe" secondAttribute="leading" constant="-15" id="Iws-J3-Ahi"/>
+                <constraint firstItem="V5j-JH-U7I" firstAttribute="trailing" secondItem="ZkB-tK-uhe" secondAttribute="trailing" constant="15" id="QOr-tb-Aku"/>
+                <constraint firstItem="V5j-JH-U7I" firstAttribute="top" secondItem="ZkB-tK-uhe" secondAttribute="top" constant="-15" id="XRu-Nu-zKF"/>
+                <constraint firstAttribute="trailing" secondItem="eFz-Rb-UaZ" secondAttribute="trailing" id="gJw-D3-gP1"/>
+                <constraint firstAttribute="bottom" secondItem="eFz-Rb-UaZ" secondAttribute="bottom" priority="750" id="hFG-Fn-Y1P"/>
+                <constraint firstItem="ZkB-tK-uhe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="iGb-GM-Jv8"/>
+                <constraint firstItem="ZkB-tK-uhe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="lP4-A9-2mt"/>
+                <constraint firstItem="V5j-JH-U7I" firstAttribute="bottom" secondItem="eFz-Rb-UaZ" secondAttribute="bottom" id="rA6-Zo-KQL"/>
+                <constraint firstItem="KbB-yH-DWM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="rW6-w8-aSr"/>
+                <constraint firstAttribute="trailing" secondItem="KbB-yH-DWM" secondAttribute="trailing" constant="15" id="ux8-6V-Ed0"/>
+                <constraint firstItem="eFz-Rb-UaZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zAc-Bh-XZ4"/>
+                <constraint firstAttribute="trailing" secondItem="ZkB-tK-uhe" secondAttribute="trailing" constant="15" id="zZz-kA-Ksh"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="constrSubtitleTopMargin" destination="6mb-QE-Mo1" id="NkE-4H-3zF"/>
+                <outlet property="constrTitleTopMargin" destination="lP4-A9-2mt" id="Q0a-wg-Mga"/>
+                <outlet property="lblSubtitle" destination="KbB-yH-DWM" id="mK6-DK-DBl"/>
+                <outlet property="lblTitle" destination="ZkB-tK-uhe" id="sKW-dL-4ED"/>
+                <outlet property="viewBtnsHolder" destination="eFz-Rb-UaZ" id="GY5-d7-Aen"/>
+            </connections>
+            <point key="canvasLocation" x="501" y="169"/>
+        </view>
+    </objects>
+</document>

@@ -15,6 +15,11 @@ UIAlertView replacement with custom show/hide animations
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'SVAlert/Classes/**/*'
+  s.resource_bundles = {
+    'SVAlert' => [
+        'Classes/**/*.xib'
+    ]
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
