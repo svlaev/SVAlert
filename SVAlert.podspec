@@ -17,7 +17,7 @@ UIAlertView replacement with custom show/hide animations
   s.source_files = 'SVAlert/Classes/**/*'
   s.resource_bundles = {
     'SVAlert' => [
-        'Classes/**/*.xib'
+        'SVAlert/Classes/**/*.xib'
     ]
   }
 
