@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import SVAlert
 
 class ViewController: UIViewController {
+    @IBAction func actionShowAlert(sender: AnyObject) {
+        SVAlert().showFrom(self.view)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -1,5 +1,7 @@
 PODS:
-  - SVAlert (0.1.0)
+  - pop (1.0.9)
+  - SVAlert (0.1.0):
+    - pop
 
 DEPENDENCIES:
   - SVAlert (from `../`)
@@ -9,7 +11,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SVAlert: 089f8f3c14f2488b265852b4450121c9df1e6fb4
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  SVAlert: 3af68dd176949c1b7864b152cfe94efd02d5a644
 
 PODFILE CHECKSUM: 4e3b83f890ae90235ec9d3b4ae2c5ff8bc87f133
 
