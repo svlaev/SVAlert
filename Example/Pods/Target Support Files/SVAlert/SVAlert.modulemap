@@ -1,0 +1,6 @@
+framework module SVAlert {
+  umbrella header "SVAlert-umbrella.h"
+
+  export *
+  module * { export * }
+}

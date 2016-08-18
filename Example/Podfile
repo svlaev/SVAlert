@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'SVAlert_Example' do
+  pod 'SVAlert', :path => '../'
+
+  target 'SVAlert_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
