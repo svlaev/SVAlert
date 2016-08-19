@@ -11,7 +11,14 @@ import SVAlert
 
 class ViewController: UIViewController {
     @IBAction func actionShowAlert(sender: AnyObject) {
-        SVAlert().showFrom(self.view)
+        let alert = SVAlert(title: "Test title", subtitle: "bla")
+        alert.addButton("B1") {
+            print("B1 tap")
+        }
+        alert.addButton("B2") {
+            print("B2 tap")
+        }
+        alert.showFrom(self.view)
     }
 
     override func viewDidLoad() {

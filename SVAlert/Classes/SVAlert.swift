@@ -13,13 +13,15 @@ extension SVAlert {
     // MARK: - Static methods
 
     // MARK: - Public methods
+    public func addButton(title: String, tap: Void -> Void) {
+        buttons.append(title: title, callback: tap)
+    }
+
     public func showFrom(parent: UIView){
         parentView = parent
-        windowView = getWindow()
-        frame = windowView.bounds
         initializeDimmerView()
         initializeAlertView()
-
+        alertView.showButtons(buttons)
         showWithAnimations()
     }
 
@@ -32,6 +34,7 @@ public class SVAlert: UIView {
     // MARK: - Public properties
 
     // MARK: - Private static properties
+    static let MaxWidth: CGFloat = 350
 
     // MARK: - Private properties
     private var windowView: UIWindow! = nil
@@ -42,6 +45,26 @@ public class SVAlert: UIView {
     private var title: String! = nil
     private var subtitle: String! = nil
     private var buttons: [(title: String, callback: Void -> Void)]! = []
+
+
+    // MARK: - Initializer
+    public convenience init(title: String, subtitle: String? = nil) {
+        self.init(frame: CGRectZero)
+        self.title = title
+        self.subtitle = subtitle
+        windowView = getWindow()
+        frame = windowView.bounds
+        initializeDimmerView()
+        initializeAlertView()
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 extension SVAlert {
@@ -60,25 +83,31 @@ extension SVAlert {
     }
 
     private func initializeDimmerView() {
-        guard dimmerView == nil else { return }
-        dimmerView = UIView(frame: getProperViewRect())
-        dimmerView.backgroundColor = UIColor.blackColor()
-        dimmerView.layer.opacity = 0.0
-        parentView.addSubview(dimmerView)
+        if dimmerView == nil {
+            dimmerView = UIView(frame: getProperViewRect())
+            dimmerView.backgroundColor = UIColor.blackColor()
+            dimmerView.layer.opacity = 0.0
+        } else {
+            dimmerView.removeFromSuperview()
+        }
+        parentView?.addSubview(dimmerView)
     }
 
     private func initializeAlertView() {
-        guard alertView == nil else { return }
-        alertView = SVAlertView.defaultAlertView()
-        alertView.title = "Title"
-        alertView.subtitle = "Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor "
-        parentView.addSubview(alertView)
+        if alertView == nil {
+            alertView = SVAlertView.defaultAlertView()
+        } else {
+            alertView.removeFromSuperview()
+        }
+        alertView.title = title
+        alertView.subtitle = subtitle
         var f = alertView.frame
-        f.size.width = self.frame.size.width
+        f.size.width = min(self.frame.size.width, SVAlert.MaxWidth)
         alertView.frame = f
         var p = dimmerView.center
         p.y = -p.y
         alertView.center = p
+        parentView?.addSubview(alertView)
     }
 
     private func showWithAnimations() {

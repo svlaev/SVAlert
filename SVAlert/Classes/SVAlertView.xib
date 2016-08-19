@@ -14,6 +14,11 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5j-JH-U7I" userLabel="Background">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="132"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZkB-tK-uhe">
                     <rect key="frame" x="15" y="15" width="570" height="20"/>
@@ -76,6 +81,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="constrButtonsHolderHeight" destination="d7l-J5-mRr" id="CKl-1E-AQj"/>
                 <outlet property="constrSubtitleTopMargin" destination="6mb-QE-Mo1" id="NkE-4H-3zF"/>
                 <outlet property="constrTitleTopMargin" destination="lP4-A9-2mt" id="Q0a-wg-Mga"/>
                 <outlet property="lblSubtitle" destination="KbB-yH-DWM" id="mK6-DK-DBl"/>
