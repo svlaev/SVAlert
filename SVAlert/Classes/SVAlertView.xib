@@ -11,15 +11,6 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="132"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5j-JH-U7I" userLabel="Background">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="132"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="5"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZkB-tK-uhe">
                     <rect key="frame" x="15" y="15" width="570" height="20"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -62,24 +53,25 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="eFz-Rb-UaZ" firstAttribute="top" secondItem="KbB-yH-DWM" secondAttribute="bottom" constant="15" id="4Ji-Cx-vc4"/>
                 <constraint firstItem="KbB-yH-DWM" firstAttribute="top" secondItem="ZkB-tK-uhe" secondAttribute="bottom" constant="15" id="6mb-QE-Mo1"/>
-                <constraint firstItem="V5j-JH-U7I" firstAttribute="leading" secondItem="ZkB-tK-uhe" secondAttribute="leading" constant="-15" id="Iws-J3-Ahi"/>
-                <constraint firstItem="V5j-JH-U7I" firstAttribute="trailing" secondItem="ZkB-tK-uhe" secondAttribute="trailing" constant="15" id="QOr-tb-Aku"/>
-                <constraint firstItem="V5j-JH-U7I" firstAttribute="top" secondItem="ZkB-tK-uhe" secondAttribute="top" constant="-15" id="XRu-Nu-zKF"/>
                 <constraint firstAttribute="trailing" secondItem="eFz-Rb-UaZ" secondAttribute="trailing" id="gJw-D3-gP1"/>
-                <constraint firstAttribute="bottom" secondItem="eFz-Rb-UaZ" secondAttribute="bottom" priority="750" id="hFG-Fn-Y1P"/>
+                <constraint firstAttribute="bottom" secondItem="eFz-Rb-UaZ" secondAttribute="bottom" id="hFG-Fn-Y1P"/>
                 <constraint firstItem="ZkB-tK-uhe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="iGb-GM-Jv8"/>
                 <constraint firstItem="ZkB-tK-uhe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="lP4-A9-2mt"/>
-                <constraint firstItem="V5j-JH-U7I" firstAttribute="bottom" secondItem="eFz-Rb-UaZ" secondAttribute="bottom" id="rA6-Zo-KQL"/>
                 <constraint firstItem="KbB-yH-DWM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="rW6-w8-aSr"/>
                 <constraint firstAttribute="trailing" secondItem="KbB-yH-DWM" secondAttribute="trailing" constant="15" id="ux8-6V-Ed0"/>
                 <constraint firstItem="eFz-Rb-UaZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zAc-Bh-XZ4"/>
                 <constraint firstAttribute="trailing" secondItem="ZkB-tK-uhe" secondAttribute="trailing" constant="15" id="zZz-kA-Ksh"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="5"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="constrButtonsHolderHeight" destination="d7l-J5-mRr" id="CKl-1E-AQj"/>
                 <outlet property="constrSubtitleTopMargin" destination="6mb-QE-Mo1" id="NkE-4H-3zF"/>

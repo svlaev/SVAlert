@@ -20,7 +20,6 @@ extension SVAlert {
         initializeDimmerView()
         initializeAlertView()
         alertView.showButtons(buttons)
-        updateAlertFrame()
         showWithAnimations()
     }
 
@@ -43,6 +42,7 @@ public class SVAlert: UIView {
     private var subtitle: String! = nil
     private var buttons: [(title: String, callback: Void -> Void)]! = []
 
+    @IBOutlet weak var constrCenterAlertVertically: NSLayoutConstraint!
 
     // MARK: - Initializer
     public convenience init(title: String, subtitle: String? = nil) {
@@ -75,19 +75,23 @@ extension SVAlert {
         return w
     }
 
-    private func getProperViewRect() -> CGRect {
+    private func screenRect() -> CGRect {
         return UIScreen.mainScreen().bounds
     }
 
     private func initializeDimmerView() {
         if dimmerView == nil {
-            dimmerView = UIView(frame: getProperViewRect())
+            dimmerView = UIView(frame: CGRectZero)
             dimmerView.backgroundColor = UIColor.blackColor()
             dimmerView.layer.opacity = 0.0
         } else {
             dimmerView.removeFromSuperview()
         }
         parentView?.addSubview(dimmerView)
+        if parentView != nil {
+            dimmerView.frame = parentView.bounds
+            addDimmerViewConstraints()
+        }
     }
 
     private func initializeAlertView() {
@@ -98,37 +102,30 @@ extension SVAlert {
         }
         alertView.title = title
         alertView.subtitle = subtitle
-        updateAlertFrame()
-        var p = dimmerView.center
-        p.y = -p.y
-        alertView.center = p
         alertView.buttonTapCallback = {
             self.hide()
         }
         parentView?.addSubview(alertView)
+        if parentView != nil {
+            addAlertConstraints()
+        }
     }
 
     private func showWithAnimations() {
-        let springAnimation = POPSpringAnimation(propertyNamed: kPOPLayerPositionY)
-        alertView.layer.anchorPoint = CGPointMake(0.5, 0.5)
-        springAnimation.toValue = dimmerView.center.y
+        let springAnimation = POPSpringAnimation(propertyNamed: kPOPLayoutConstraintConstant)
+        springAnimation.toValue = 0.0
         springAnimation.springBounciness = 10.0
-        springAnimation.completionBlock = { anim, finished in
-            if finished {
-                self.updateAlertFrame()
-            }
-        }
 
         let dimmerShowAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
         dimmerShowAnimation.toValue = 0.3
         dimmerShowAnimation.duration = 0.3
-        alertView.layer.pop_addAnimation(springAnimation, forKey: AnimationTitles.AlertViewShow)
+        constrCenterAlertVertically.pop_addAnimation(springAnimation, forKey: AnimationTitles.AlertViewShow)
         dimmerView.layer.pop_addAnimation(dimmerShowAnimation, forKey: AnimationTitles.DimmerViewOpacity)
     }
 
     private func hideWithAminations() {
-        let hideAnimation = POPBasicAnimation(propertyNamed: kPOPLayerPositionY)
-        hideAnimation.toValue = -dimmerView.center.y
+        let hideAnimation = POPBasicAnimation(propertyNamed: kPOPLayoutConstraintConstant )
+        hideAnimation.toValue = -dimmerView.frame.size.height
         hideAnimation.duration = 0.3
         let fadeAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
         fadeAnimation.toValue = 0.0
@@ -138,7 +135,7 @@ extension SVAlert {
                 self.removeFromViewHierarchy()
             }
         }
-        alertView.layer.pop_addAnimation(hideAnimation, forKey: AnimationTitles.AlertViewHide)
+        constrCenterAlertVertically.pop_addAnimation(hideAnimation, forKey: AnimationTitles.AlertViewHide)
         dimmerView.layer.pop_addAnimation(fadeAnimation, forKey: AnimationTitles.DimmerViewOpacity)
     }
 
@@ -150,12 +147,35 @@ extension SVAlert {
         self.removeFromSuperview()
     }
 
-    private func updateAlertFrame() {
-        guard alertView != nil else { return }
-        var f = alertView.frame
-        f.size.width = min(self.frame.size.width, SVAlert.MaxWidth)
-        f.size.height = alertView.desiredHeight()
-        alertView.frame = f
+    private func addAlertConstraints() {
+        var arr: [NSLayoutConstraint] = []
+        alertView.translatesAutoresizingMaskIntoConstraints = false
+        arr.append(NSLayoutConstraint(item: alertView,
+            attribute: .CenterX,
+            relatedBy: .Equal,
+            toItem: parentView,
+            attribute: .CenterX,
+            multiplier: 1.0,
+            constant: 0.0))
+        constrCenterAlertVertically = NSLayoutConstraint(item: alertView,
+                                                         attribute: .CenterY,
+                                                         relatedBy: .Equal,
+                                                         toItem: parentView,
+                                                         attribute: .CenterY,
+                                                         multiplier: 1.0,
+                                                         constant: -screenRect().size.height)
+        arr.append(constrCenterAlertVertically)
+        let w = min(self.frame.size.width, SVAlert.MaxWidth)
+        alertView.addConstraints(NSLayoutConstraint.visual("H:[alert(\(w))]", views: ["alert" : alertView]))
+        parentView.addConstraints(arr)
+    }
+
+    private func addDimmerViewConstraints() {
+        var arr: [NSLayoutConstraint] = []
+        let dict = ["v" : dimmerView]
+        arr.appendContentsOf(NSLayoutConstraint.visual("H:|-0-[v]-0-|", views: dict))
+        arr.appendContentsOf(NSLayoutConstraint.visual("V:|-0-[v]-0-|", views: dict))
+        parentView.addConstraints(arr)
     }
 }
 
