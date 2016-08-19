@@ -74,7 +74,7 @@ extension SVAlertView {
             btn.setTitle(btnToBeAdded.title, forState: .Normal)
             btn.addTarget(self, action: #selector(buttonTapped), forControlEvents: .TouchUpInside)
             btn.tag = index
-            btn.setTitleColor(UIColor.blueColor(), forState: .Normal)
+            btn.setTitleColor(UIColor(red: CGFloat(5.0/255.0), green: CGFloat(133.0/255.0), blue: 1.0, alpha: 1.0), forState: .Normal)
             index += 1
             btn.translatesAutoresizingMaskIntoConstraints = false
             buttonsArr.append(btn: btn, tapCallback: btnToBeAdded.callback)
