@@ -26,6 +26,7 @@ extension SVAlertView {
             }
         }
         tap?()
+        buttonTapCallback?()
     }
 }
 
@@ -43,6 +44,8 @@ class SVAlertView: UIView {
             constrSubtitleTopMargin.constant = lblSubtitle?.text != nil ? constrTitleTopMargin.constant : 0.0
         }
     }
+
+    var buttonTapCallback: (Void -> Void)! = nil
 
     // MARK: - Private static properties
     static let ButtonHeight: CGFloat = 50.0

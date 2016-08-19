@@ -10,8 +10,6 @@ import UIKit
 import pop
 
 extension SVAlert {
-    // MARK: - Static methods
-
     // MARK: - Public methods
     public func addButton(title: String, tap: Void -> Void) {
         buttons.append(title: title, callback: tap)
@@ -26,13 +24,11 @@ extension SVAlert {
     }
 
     public func hide() {
-
+        hideWithAminations()
     }
 }
 
 public class SVAlert: UIView {
-    // MARK: - Public properties
-
     // MARK: - Private static properties
     static let MaxWidth: CGFloat = 350
 
@@ -107,6 +103,9 @@ extension SVAlert {
         var p = dimmerView.center
         p.y = -p.y
         alertView.center = p
+        alertView.buttonTapCallback = {
+            self.hide()
+        }
         parentView?.addSubview(alertView)
     }
 
@@ -117,12 +116,38 @@ extension SVAlert {
 
         let dimmerShowAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
         dimmerShowAnimation.toValue = 0.3
+        dimmerShowAnimation.duration = 0.3
         alertView.layer.pop_addAnimation(springAnimation, forKey: AnimationTitles.AlertViewShow)
         dimmerView.layer.pop_addAnimation(dimmerShowAnimation, forKey: AnimationTitles.DimmerViewOpacity)
+    }
+
+    private func hideWithAminations() {
+        let hideAnimation = POPBasicAnimation(propertyNamed: kPOPLayerPositionY)
+        hideAnimation.toValue = -dimmerView.center.y
+        hideAnimation.duration = 0.3
+        let fadeAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+        fadeAnimation.toValue = 0.0
+        fadeAnimation.duration = 0.3
+        hideAnimation.completionBlock = { animation, finished in
+            if finished {
+                self.removeFromViewHierarchy()
+            }
+        }
+        alertView.layer.pop_addAnimation(hideAnimation, forKey: AnimationTitles.AlertViewHide)
+        dimmerView.layer.pop_addAnimation(fadeAnimation, forKey: AnimationTitles.DimmerViewOpacity)
+    }
+
+    private func removeFromViewHierarchy() {
+        dimmerView?.removeFromSuperview()
+        dimmerView = nil
+        alertView?.removeFromSuperview()
+        alertView = nil
+        self.removeFromSuperview()
     }
 }
 
 struct AnimationTitles {
     static let DimmerViewOpacity = "dimmmerViewOpacity"
     static let AlertViewShow = "alertViewShow"
+    static let AlertViewHide = "alertViewHide"
 }
