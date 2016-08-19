@@ -114,7 +114,6 @@ extension SVAlertView {
 
     private func constraintsForTwoButtons(button1 b1: UIButton, button2 b2: UIButton) -> [NSLayoutConstraint] {
         let dict = ["b1" : b1, "b2" : b2]
-        let opts = NSLayoutFormatOptions(rawValue: 0)
         var arr = NSLayoutConstraint.visual("V:|-0-[b1]-0-|", views: dict)
         arr.appendContentsOf(NSLayoutConstraint.visual("V:|-0-[b2]-0-|", views: dict))
         arr.appendContentsOf(NSLayoutConstraint.visual("H:|-0-[b1]", views: dict))
