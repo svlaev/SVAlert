@@ -28,6 +28,10 @@ extension SVAlertView {
         tap?()
         buttonTapCallback?()
     }
+
+    func desiredHeight() -> CGFloat {
+        return CGRectGetMaxY(viewBtnsHolder.frame)
+    }
 }
 
 class SVAlertView: UIView {

@@ -20,6 +20,7 @@ extension SVAlert {
         initializeDimmerView()
         initializeAlertView()
         alertView.showButtons(buttons)
+        updateAlertFrame()
         showWithAnimations()
     }
 
@@ -30,7 +31,7 @@ extension SVAlert {
 
 public class SVAlert: UIView {
     // MARK: - Private static properties
-    static let MaxWidth: CGFloat = 350
+    static let MaxWidth: CGFloat = 320
 
     // MARK: - Private properties
     private var windowView: UIWindow! = nil
@@ -97,9 +98,7 @@ extension SVAlert {
         }
         alertView.title = title
         alertView.subtitle = subtitle
-        var f = alertView.frame
-        f.size.width = min(self.frame.size.width, SVAlert.MaxWidth)
-        alertView.frame = f
+        updateAlertFrame()
         var p = dimmerView.center
         p.y = -p.y
         alertView.center = p
@@ -111,8 +110,14 @@ extension SVAlert {
 
     private func showWithAnimations() {
         let springAnimation = POPSpringAnimation(propertyNamed: kPOPLayerPositionY)
+        alertView.layer.anchorPoint = CGPointMake(0.5, 0.5)
         springAnimation.toValue = dimmerView.center.y
         springAnimation.springBounciness = 10.0
+        springAnimation.completionBlock = { anim, finished in
+            if finished {
+                self.updateAlertFrame()
+            }
+        }
 
         let dimmerShowAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
         dimmerShowAnimation.toValue = 0.3
@@ -143,6 +148,14 @@ extension SVAlert {
         alertView?.removeFromSuperview()
         alertView = nil
         self.removeFromSuperview()
+    }
+
+    private func updateAlertFrame() {
+        guard alertView != nil else { return }
+        var f = alertView.frame
+        f.size.width = min(self.frame.size.width, SVAlert.MaxWidth)
+        f.size.height = alertView.desiredHeight()
+        alertView.frame = f
     }
 }
 
