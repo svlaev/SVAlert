@@ -29,8 +29,8 @@ extension SVAlert {
 }
 
 public class SVAlert: UIView {
-    // MARK: - Private static properties
-    static let MaxWidth: CGFloat = 320
+    // MARK: - Public static properties
+    static let MaxWidth: CGFloat = 350
 
     // MARK: - Private properties
     private var windowView: UIWindow! = nil
@@ -165,7 +165,7 @@ extension SVAlert {
                                                          multiplier: 1.0,
                                                          constant: -screenRect().size.height)
         arr.append(constrCenterAlertVertically)
-        let w = min(self.frame.size.width, SVAlert.MaxWidth)
+        let w = min(self.frame.size.width * 0.9, SVAlert.MaxWidth)
         alertView.addConstraints(NSLayoutConstraint.visual("H:[alert(\(w))]", views: ["alert" : alertView]))
         parentView.addConstraints(arr)
     }
