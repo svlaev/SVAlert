@@ -11,6 +11,7 @@ import SVAlert
 
 class ViewController: UIViewController {
     @IBAction func actionShowAlert(sender: AnyObject) {
+        SVAlert.Appearance.showHideAnimation = .FadeInOut
         let alert = SVAlert(title: "Test title", subtitle: "Test\nsubtitle\nwith\nmany\nrows")
         alert.addButton("Ok") {
             print("Ok tapped")

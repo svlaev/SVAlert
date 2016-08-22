@@ -9,6 +9,13 @@
 import UIKit
 import pop
 
+public enum ShowHideAnimation {
+    // Uses fade animation for the alert
+    case FadeInOut
+    // Drops the alert from the top of the screen to the center and moves it up when it's being hidden
+    case DropDown
+}
+
 extension SVAlert {
     // MARK: - Public methods
     public func addButton(title: String, tap: Void -> Void) {
@@ -42,6 +49,7 @@ public class SVAlert: UIView {
     private var subtitle: String! = nil
     private var buttons: [(title: String, callback: Void -> Void)]! = []
 
+    // MARK: - Outlets
     @IBOutlet weak var constrCenterAlertVertically: NSLayoutConstraint!
 
     // MARK: - Initializer
@@ -61,6 +69,13 @@ public class SVAlert: UIView {
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Appearance
+    public struct Appearance {
+        public static var showHideAnimation: ShowHideAnimation = .DropDown
+        public static var springBounciness: CGFloat = 10.0
+        public static var animationDuration: Double = 0.3
     }
 }
 
@@ -105,6 +120,7 @@ extension SVAlert {
         alertView.buttonTapCallback = {
             self.hide()
         }
+        alertView.layer.opacity = 0.0
         parentView?.addSubview(alertView)
         if parentView != nil {
             addAlertConstraints()
@@ -112,31 +128,59 @@ extension SVAlert {
     }
 
     private func showWithAnimations() {
-        let springAnimation = POPSpringAnimation(propertyNamed: kPOPLayoutConstraintConstant)
-        springAnimation.toValue = 0.0
-        springAnimation.springBounciness = 10.0
-
+        var alertAnimation: POPPropertyAnimation! = nil
+        switch Appearance.showHideAnimation {
+            case .DropDown:
+                alertView.layer.opacity = 1.0
+                alertAnimation = POPSpringAnimation(propertyNamed: kPOPLayoutConstraintConstant)
+                alertAnimation.toValue = 0.0
+                (alertAnimation as! POPSpringAnimation).springBounciness = Appearance.springBounciness
+            case .FadeInOut:
+                constrCenterAlertVertically.constant = 0.0
+                alertAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+                alertAnimation.toValue = 1.0
+                (alertAnimation as! POPBasicAnimation).duration = Appearance.animationDuration
+        }
         let dimmerShowAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
         dimmerShowAnimation.toValue = 0.3
-        dimmerShowAnimation.duration = 0.3
-        constrCenterAlertVertically.pop_addAnimation(springAnimation, forKey: AnimationTitles.AlertViewShow)
+        dimmerShowAnimation.duration = Appearance.animationDuration
+        switch Appearance.showHideAnimation {
+            case .DropDown:
+                constrCenterAlertVertically.pop_addAnimation(alertAnimation, forKey: AnimationTitles.AlertViewShow)
+            case .FadeInOut:
+                alertView.layer.pop_addAnimation(alertAnimation, forKey: AnimationTitles.AlertViewShow)
+        }
         dimmerView.layer.pop_addAnimation(dimmerShowAnimation, forKey: AnimationTitles.DimmerViewOpacity)
     }
 
     private func hideWithAminations() {
-        let hideAnimation = POPBasicAnimation(propertyNamed: kPOPLayoutConstraintConstant )
-        hideAnimation.toValue = -dimmerView.frame.size.height
-        hideAnimation.duration = 0.3
-        let fadeAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-        fadeAnimation.toValue = 0.0
-        fadeAnimation.duration = 0.3
-        hideAnimation.completionBlock = { animation, finished in
+        var alertAnimation: POPPropertyAnimation! = nil
+        switch Appearance.showHideAnimation {
+        case .DropDown:
+            alertView.layer.opacity = 1.0
+            alertAnimation = POPBasicAnimation(propertyNamed: kPOPLayoutConstraintConstant)
+            alertAnimation.toValue = -dimmerView.frame.size.height
+            (alertAnimation as! POPBasicAnimation).duration = Appearance.animationDuration
+        case .FadeInOut:
+            alertAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+            alertAnimation.toValue = 0.0
+            (alertAnimation as! POPBasicAnimation).duration = Appearance.animationDuration
+        }
+        let dimmerHideAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+        dimmerHideAnimation.toValue = 0.0
+        dimmerHideAnimation.duration = 0.3
+        dimmerHideAnimation.completionBlock = { animation, finished in
             if finished {
                 self.removeFromViewHierarchy()
             }
         }
-        constrCenterAlertVertically.pop_addAnimation(hideAnimation, forKey: AnimationTitles.AlertViewHide)
-        dimmerView.layer.pop_addAnimation(fadeAnimation, forKey: AnimationTitles.DimmerViewOpacity)
+        switch Appearance.showHideAnimation {
+            case .DropDown:
+                constrCenterAlertVertically.pop_addAnimation(alertAnimation, forKey: AnimationTitles.AlertViewHide)
+            case .FadeInOut:
+                alertView.layer.pop_addAnimation(alertAnimation, forKey: AnimationTitles.AlertViewHide)
+        }
+        dimmerView.layer.pop_addAnimation(dimmerHideAnimation, forKey: AnimationTitles.DimmerViewOpacity)
     }
 
     private func removeFromViewHierarchy() {
