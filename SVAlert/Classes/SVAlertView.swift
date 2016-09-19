@@ -9,7 +9,7 @@
 extension SVAlertView {
     // MARK: - Static methods
     class func defaultAlertView() -> SVAlertView {
-        return NSBundle(forClass: self.classForCoder()).loadNibNamed("SVAlertView", owner: nil, options: nil).first as! SVAlertView
+        return NSBundle(forClass: self.classForCoder()).loadNibNamed("SVAlertView", owner: nil, options: nil)!.first as! SVAlertView
     }
 
     // MARK: - Public methods
