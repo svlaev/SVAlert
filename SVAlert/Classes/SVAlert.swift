@@ -11,18 +11,18 @@ import pop
 
 public enum ShowHideAnimation {
     // Uses fade animation for the alert
-    case FadeInOut
+    case fadeInOut
     // Drops the alert from the top of the screen to the center and moves it up when it's being hidden
-    case DropDown
+    case dropDown
 }
 
 extension SVAlert {
     // MARK: - Public methods
-    public func addButton(title: String, tap: Void -> Void) {
-        buttons.append(title: title, callback: tap)
+    public func addButton(_ title: String, tap: @escaping (Void) -> Void) {
+        buttons.append((title, tap))
     }
 
-    public func showFrom(parent: UIView){
+    public func showFrom(_ parent: UIView){
         parentView = parent
         initializeDimmerView()
         initializeAlertView()
@@ -35,26 +35,26 @@ extension SVAlert {
     }
 }
 
-public class SVAlert: UIView {
+open class SVAlert: UIView {
     // MARK: - Public static properties
     static let MaxWidth: CGFloat = 350
 
     // MARK: - Private properties
-    private var windowView: UIWindow! = nil
-    private var dimmerView: UIView! = nil
-    private var alertView: SVAlertView! = nil
-    private var parentView: UIView! = nil
+    fileprivate var windowView: UIWindow! = nil
+    fileprivate var dimmerView: UIView! = nil
+    fileprivate var alertView: SVAlertView! = nil
+    fileprivate var parentView: UIView! = nil
 
-    private var title: String! = nil
-    private var subtitle: String! = nil
-    private var buttons: [(title: String, callback: Void -> Void)]! = []
+    fileprivate var title: String! = nil
+    fileprivate var subtitle: String! = nil
+    fileprivate var buttons: [(title: String, callback: (Void) -> Void)]! = []
 
     // MARK: - Outlets
     @IBOutlet weak var constrCenterAlertVertically: NSLayoutConstraint!
 
     // MARK: - Initializer
     public convenience init(title: String, subtitle: String? = nil) {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
         self.title = title
         self.subtitle = subtitle
         windowView = getWindow()
@@ -73,7 +73,7 @@ public class SVAlert: UIView {
 
     // MARK: - Appearance
     public struct Appearance {
-        public static var showHideAnimation: ShowHideAnimation = .DropDown
+        public static var showHideAnimation: ShowHideAnimation = .dropDown
         public static var springBounciness: CGFloat = 10.0
         public static var animationDuration: Double = 0.3
     }
@@ -81,23 +81,23 @@ public class SVAlert: UIView {
 
 extension SVAlert {
     // MARK: - Private methods
-    private func getWindow() -> UIWindow! {
+    fileprivate func getWindow() -> UIWindow! {
         guard windowView == nil else { return windowView }
-        var w = UIApplication.sharedApplication().keyWindow
+        var w = UIApplication.shared.keyWindow
         if w == nil {
-            w = UIApplication.sharedApplication().windows.first
+            w = UIApplication.shared.windows.first
         }
         return w
     }
 
-    private func screenRect() -> CGRect {
-        return UIScreen.mainScreen().bounds
+    fileprivate func screenRect() -> CGRect {
+        return UIScreen.main.bounds
     }
 
-    private func initializeDimmerView() {
+    fileprivate func initializeDimmerView() {
         if dimmerView == nil {
-            dimmerView = UIView(frame: CGRectZero)
-            dimmerView.backgroundColor = UIColor.blackColor()
+            dimmerView = UIView(frame: CGRect.zero)
+            dimmerView.backgroundColor = UIColor.black
             dimmerView.layer.opacity = 0.0
         } else {
             dimmerView.removeFromSuperview()
@@ -109,7 +109,7 @@ extension SVAlert {
         }
     }
 
-    private func initializeAlertView() {
+    fileprivate func initializeAlertView() {
         if alertView == nil {
             alertView = SVAlertView.defaultAlertView()
         } else {
@@ -127,63 +127,63 @@ extension SVAlert {
         }
     }
 
-    private func showWithAnimations() {
+    fileprivate func showWithAnimations() {
         var alertAnimation: POPPropertyAnimation! = nil
         switch Appearance.showHideAnimation {
-            case .DropDown:
+            case .dropDown:
                 alertView.layer.opacity = 1.0
                 alertAnimation = POPSpringAnimation(propertyNamed: kPOPLayoutConstraintConstant)
                 alertAnimation.toValue = 0.0
                 (alertAnimation as! POPSpringAnimation).springBounciness = Appearance.springBounciness
-            case .FadeInOut:
+            case .fadeInOut:
                 constrCenterAlertVertically.constant = 0.0
                 alertAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
                 alertAnimation.toValue = 1.0
                 (alertAnimation as! POPBasicAnimation).duration = Appearance.animationDuration
         }
         let dimmerShowAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-        dimmerShowAnimation.toValue = 0.3
-        dimmerShowAnimation.duration = Appearance.animationDuration
+        dimmerShowAnimation?.toValue = 0.3
+        dimmerShowAnimation?.duration = Appearance.animationDuration
         switch Appearance.showHideAnimation {
-            case .DropDown:
-                constrCenterAlertVertically.pop_addAnimation(alertAnimation, forKey: AnimationTitles.AlertViewShow)
-            case .FadeInOut:
-                alertView.layer.pop_addAnimation(alertAnimation, forKey: AnimationTitles.AlertViewShow)
+            case .dropDown:
+                constrCenterAlertVertically.pop_add(alertAnimation, forKey: AnimationTitles.AlertViewShow)
+            case .fadeInOut:
+                alertView.layer.pop_add(alertAnimation, forKey: AnimationTitles.AlertViewShow)
         }
-        dimmerView.layer.pop_addAnimation(dimmerShowAnimation, forKey: AnimationTitles.DimmerViewOpacity)
+        dimmerView.layer.pop_add(dimmerShowAnimation, forKey: AnimationTitles.DimmerViewOpacity)
     }
 
-    private func hideWithAminations() {
+    fileprivate func hideWithAminations() {
         var alertAnimation: POPPropertyAnimation! = nil
         switch Appearance.showHideAnimation {
-        case .DropDown:
+        case .dropDown:
             alertView.layer.opacity = 1.0
             alertAnimation = POPBasicAnimation(propertyNamed: kPOPLayoutConstraintConstant)
             alertAnimation.toValue = -dimmerView.frame.size.height
             (alertAnimation as! POPBasicAnimation).duration = Appearance.animationDuration
-        case .FadeInOut:
+        case .fadeInOut:
             alertAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
             alertAnimation.toValue = 0.0
             (alertAnimation as! POPBasicAnimation).duration = Appearance.animationDuration
         }
         let dimmerHideAnimation = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-        dimmerHideAnimation.toValue = 0.0
-        dimmerHideAnimation.duration = 0.3
-        dimmerHideAnimation.completionBlock = { animation, finished in
+        dimmerHideAnimation?.toValue = 0.0
+        dimmerHideAnimation?.duration = 0.3
+        dimmerHideAnimation?.completionBlock = { animation, finished in
             if finished {
                 self.removeFromViewHierarchy()
             }
         }
         switch Appearance.showHideAnimation {
-            case .DropDown:
-                constrCenterAlertVertically.pop_addAnimation(alertAnimation, forKey: AnimationTitles.AlertViewHide)
-            case .FadeInOut:
-                alertView.layer.pop_addAnimation(alertAnimation, forKey: AnimationTitles.AlertViewHide)
+            case .dropDown:
+                constrCenterAlertVertically.pop_add(alertAnimation, forKey: AnimationTitles.AlertViewHide)
+            case .fadeInOut:
+                alertView.layer.pop_add(alertAnimation, forKey: AnimationTitles.AlertViewHide)
         }
-        dimmerView.layer.pop_addAnimation(dimmerHideAnimation, forKey: AnimationTitles.DimmerViewOpacity)
+        dimmerView.layer.pop_add(dimmerHideAnimation, forKey: AnimationTitles.DimmerViewOpacity)
     }
 
-    private func removeFromViewHierarchy() {
+    fileprivate func removeFromViewHierarchy() {
         dimmerView?.removeFromSuperview()
         dimmerView = nil
         alertView?.removeFromSuperview()
@@ -191,21 +191,21 @@ extension SVAlert {
         self.removeFromSuperview()
     }
 
-    private func addAlertConstraints() {
+    fileprivate func addAlertConstraints() {
         var arr: [NSLayoutConstraint] = []
         alertView.translatesAutoresizingMaskIntoConstraints = false
         arr.append(NSLayoutConstraint(item: alertView,
-            attribute: .CenterX,
-            relatedBy: .Equal,
+            attribute: .centerX,
+            relatedBy: .equal,
             toItem: parentView,
-            attribute: .CenterX,
+            attribute: .centerX,
             multiplier: 1.0,
             constant: 0.0))
         constrCenterAlertVertically = NSLayoutConstraint(item: alertView,
-                                                         attribute: .CenterY,
-                                                         relatedBy: .Equal,
+                                                         attribute: .centerY,
+                                                         relatedBy: .equal,
                                                          toItem: parentView,
-                                                         attribute: .CenterY,
+                                                         attribute: .centerY,
                                                          multiplier: 1.0,
                                                          constant: -screenRect().size.height)
         arr.append(constrCenterAlertVertically)
@@ -214,11 +214,12 @@ extension SVAlert {
         parentView.addConstraints(arr)
     }
 
-    private func addDimmerViewConstraints() {
+    fileprivate func addDimmerViewConstraints() {
+        guard dimmerView != nil else { return }
         var arr: [NSLayoutConstraint] = []
-        let dict = ["v" : dimmerView]
-        arr.appendContentsOf(NSLayoutConstraint.visual("H:|-0-[v]-0-|", views: dict))
-        arr.appendContentsOf(NSLayoutConstraint.visual("V:|-0-[v]-0-|", views: dict))
+        let dict = ["v" : dimmerView!]
+        arr.append(contentsOf: NSLayoutConstraint.visual("H:|-0-[v]-0-|", views: dict))
+        arr.append(contentsOf: NSLayoutConstraint.visual("V:|-0-[v]-0-|", views: dict))
         parentView.addConstraints(arr)
     }
 }
