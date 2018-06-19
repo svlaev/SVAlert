@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SVAlert'
-  s.version          = '0.5'
+  s.version          = '0.6'
   s.summary          = 'An Alert View replacement built with Swift'
 
   s.description      = <<-DESC
@@ -12,7 +12,7 @@ UIAlertView replacement with custom show/hide animations
   s.author           = { 'Stanislav Vlaev' => 'stanislav.vlaev@gmail.com' }
   s.source           = { :git => 'https://github.com/svlaev/SVAlert.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.3'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'SVAlert/Classes/**/*'
   s.resource_bundles = {
@@ -24,4 +24,6 @@ UIAlertView replacement with custom show/hide animations
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'pop'
+
+  s.swift_version = '4.1'
 end
