@@ -13,12 +13,12 @@ extension SVAlertView {
     }
 
     // MARK: - Public methods
-    func showButtons(_ btns: [(title: String, callback: (Void) -> Void)]) {
+    func showButtons(_ btns: [(title: String, callback: () -> Void)]) {
         populateButtons(btns)
     }
 
-    func buttonTapped(_ btn: UIButton) {
-        var tap: ((Void)->Void)! = nil
+    @objc func buttonTapped(_ btn: UIButton) {
+        var tap: (()->Void)! = nil
         for b in buttonsArr {
             if b.btn.tag == btn.tag {
                 tap = b.tapCallback
@@ -49,13 +49,13 @@ class SVAlertView: UIView {
         }
     }
 
-    var buttonTapCallback: ((Void) -> Void)! = nil
+    var buttonTapCallback: (() -> Void)! = nil
 
     // MARK: - Private static properties
     static let ButtonHeight: CGFloat = 50.0
 
     // MARK: - Private properties
-    fileprivate var buttonsArr: [(btn: UIButton, tapCallback: (Void) -> Void)]! = []
+    fileprivate var buttonsArr: [(btn: UIButton, tapCallback: () -> Void)]! = []
 
     // MARK: - Outlets
     @IBOutlet weak var lblTitle: UILabel!
@@ -68,7 +68,7 @@ class SVAlertView: UIView {
 
 extension SVAlertView {
     // MARK: - Private methods
-    fileprivate func populateButtons(_ btns: [(title: String, callback: (Void) -> Void)]) {
+    fileprivate func populateButtons(_ btns: [(title: String, callback: () -> Void)]) {
         viewBtnsHolder.subviews.forEach { $0.removeFromSuperview() }
         buttonsArr.removeAll()
         var index = 0
@@ -81,7 +81,7 @@ extension SVAlertView {
             btn.setTitleColor(UIColor(red: CGFloat(5.0/255.0), green: CGFloat(133.0/255.0), blue: 1.0, alpha: 1.0), for: UIControlState())
             index += 1
             btn.translatesAutoresizingMaskIntoConstraints = false
-            buttonsArr.append(btn: btn, tapCallback: btnToBeAdded.callback)
+            buttonsArr.append((btn: btn, tapCallback: btnToBeAdded.callback))
             viewBtnsHolder.addSubview(btn)
         }
         guard buttonsArr.count > 0 else {

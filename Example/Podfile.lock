@@ -1,19 +1,23 @@
 PODS:
-  - pop (1.0.9)
-  - SVAlert (0.1.0):
+  - pop (1.0.10)
+  - SVAlert (0.5):
     - pop
 
 DEPENDENCIES:
   - SVAlert (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - pop
 
 EXTERNAL SOURCES:
   SVAlert:
     :path: "../"
 
 SPEC CHECKSUMS:
-  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  SVAlert: 988dcd1b9640873bdef5aff2c343d843ff758f6a
+  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
+  SVAlert: fc4711fbbf0f673d8cb25b5fe5f3756c1a97a379
 
 PODFILE CHECKSUM: 4e3b83f890ae90235ec9d3b4ae2c5ff8bc87f133
 
-COCOAPODS: 1.1.0.beta.1
+COCOAPODS: 1.5.3

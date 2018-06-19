@@ -18,7 +18,7 @@ public enum ShowHideAnimation {
 
 extension SVAlert {
     // MARK: - Public methods
-    public func addButton(_ title: String, tap: @escaping (Void) -> Void) {
+    public func addButton(_ title: String, tap: @escaping () -> Void) {
         buttons.append((title, tap))
     }
 
@@ -47,7 +47,7 @@ open class SVAlert: UIView {
 
     fileprivate var title: String! = nil
     fileprivate var subtitle: String! = nil
-    fileprivate var buttons: [(title: String, callback: (Void) -> Void)]! = []
+    fileprivate var buttons: [(title: String, callback: () -> Void)]! = []
 
     // MARK: - Outlets
     @IBOutlet weak var constrCenterAlertVertically: NSLayoutConstraint!
